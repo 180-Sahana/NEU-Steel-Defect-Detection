@@ -1,0 +1,15 @@
+path: dataset_yolo
+
+train: train/images
+val: val/images
+test: test/images
+
+nc: 6
+
+names:
+  0: scratches
+  1: rolled-in_scale
+  2: pitted_surface
+  3: patches
+  4: inclusion
+  5: crazing
