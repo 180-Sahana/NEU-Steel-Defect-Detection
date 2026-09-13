@@ -35,10 +35,10 @@ AI-based steel surface defect detection using YOLO and Streamlit.
 
 | Metric | Result |
 |---|---:|
-| Precision | 35.73% |
-| Recall | 26.54% |
-| mAP50 | 14.59% |
-| mAP50-95 | 5.04% |
+| Precision | 75.34% |
+| Recall | 63.60% |
+| mAP50 | 72.40% |
+| mAP50-95 | 40.95% |
 
 ## Run the Application
 
