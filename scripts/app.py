@@ -58,7 +58,7 @@ if uploaded_file is not None:
         results = model.predict(
             image,
             imgsz=512,
-            conf=0.25,
+            conf=0.20,
             verbose=False
         )
 
@@ -77,35 +77,49 @@ if uploaded_file is not None:
 
             st.subheader("Defect Analysis")
 
-            for box in boxes:
+            detected = {}
 
-                class_id = int(box.cls[0])
-                confidence = float(box.conf[0])
+for box in boxes:
 
-                class_name = model.names[class_id]
+    class_id = int(box.cls[0])
+    confidence = float(box.conf[0])
 
-                info = severity_info.get(
-                    class_name,
-                    {
-                        "severity": "Unknown",
-                        "risk": "Unknown"
-                    }
-                )
+    class_name = model.names[class_id]
 
-                st.write(
-                    f"### 🔍 {class_name}"
-                )
+    info = severity_info.get(
+        class_name,
+        {
+            "severity": "Unknown",
+            "risk": "Unknown"
+        }
+    )
 
-                st.write(
-                    f"**Confidence:** {confidence:.2%}"
-                )
+    if class_name not in detected:
+        detected[class_name] = {
+            "confidence": confidence,
+            "severity": info["severity"],
+            "risk": info["risk"]
+        }
 
-                st.write(
-                    f"**Severity:** {info['severity']}"
-                )
+    elif confidence > detected[class_name]["confidence"]:
+        detected[class_name]["confidence"] = confidence
 
-                st.write(
-                    f"**Risk:** {info['risk']}"
-                )
+st.subheader("Defect Summary")
 
-                st.divider()
+for class_name, info in detected.items():
+
+    st.write(f"### 🔍 {class_name}")
+
+    st.write(
+        f"**Confidence:** {info['confidence']:.2%}"
+    )
+
+    st.write(
+        f"**Severity:** {info['severity']}"
+    )
+
+    st.write(
+        f"**Risk:** {info['risk']}"
+    )
+
+    st.divider()
